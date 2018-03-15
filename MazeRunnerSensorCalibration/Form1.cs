@@ -125,13 +125,27 @@ namespace MazeRunnerSensorCalibration
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            client = new TcpClient(txtServer.Text, Convert.ToInt32(txtPort.Text));
+            txtServer.Enabled = false;
+            txtPort.Enabled = false;
+            btnConnect.Enabled = false;
+            try
+            {
+                client = new TcpClient(txtServer.Text, Convert.ToInt32(txtPort.Text));
 
-            Byte[] data = Encoding.ASCII.GetBytes("D\n");
-            NetworkStream stream = client.GetStream();
-            stream.Write(data, 0, data.Length);
+                Byte[] data = Encoding.ASCII.GetBytes("D\n");
+                NetworkStream stream = client.GetStream();
+                stream.Write(data, 0, data.Length);
 
-            backgroundWorker1.RunWorkerAsync();
+                backgroundWorker1.RunWorkerAsync();
+
+                MessageBox.Show("Connection successful.");
+            }
+            catch (Exception ex)
+            {
+                txtServer.Enabled = true;
+                txtPort.Enabled = true;
+                btnConnect.Enabled = true;
+            }
         }
 
         private void btnGetReadings_Click(object sender, EventArgs e)
@@ -208,6 +222,8 @@ namespace MazeRunnerSensorCalibration
             output += "1: " + sensor1 + "2: " + sensor2 + "3: " + sensor3 + "4: " + sensor4 + "5: " + sensor5 + "6: " + sensor6;
 
             File.WriteAllText(DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", output);
+
+            MessageBox.Show("Code exported.");
         }
     }
 }
