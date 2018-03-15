@@ -200,7 +200,7 @@ namespace MazeRunnerSensorCalibration
             output += "// End: " + nudEnd.Value + " \r\n";
             output += "// Interval: " + nudInterval.Value + " \r\n";
 
-            output += sensor1 + sensor2 + sensor3 + sensor4 + sensor5 + sensor6;
+            output += "1: " + sensor1 + "2: " + sensor2 + "3: " + sensor3 + "4: " + sensor4 + "5: " + sensor5 + "6: " + sensor6;
 
             File.WriteAllText(DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", output);
         }
