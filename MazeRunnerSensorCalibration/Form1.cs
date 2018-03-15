@@ -126,6 +126,11 @@ namespace MazeRunnerSensorCalibration
         private void btnConnect_Click(object sender, EventArgs e)
         {
             client = new TcpClient(txtServer.Text, Convert.ToInt32(txtPort.Text));
+
+            Byte[] data = Encoding.ASCII.GetBytes("D\n");
+            NetworkStream stream = client.GetStream();
+            stream.Write(data, 0, data.Length);
+
             backgroundWorker1.RunWorkerAsync();
         }
 

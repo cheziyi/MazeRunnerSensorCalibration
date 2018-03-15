@@ -341,7 +341,7 @@
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(252, 23);
             this.btnOk.TabIndex = 27;
-            this.btnOk.Text = "Save Curent Values";
+            this.btnOk.Text = "Save Current Values";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -398,7 +398,7 @@
             this.txtServer.Name = "txtServer";
             this.txtServer.Size = new System.Drawing.Size(166, 20);
             this.txtServer.TabIndex = 32;
-            this.txtServer.Text = "192.167.7.1";
+            this.txtServer.Text = "192.168.7.1";
             // 
             // txtPort
             // 
