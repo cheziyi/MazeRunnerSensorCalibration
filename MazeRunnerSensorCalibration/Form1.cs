@@ -189,12 +189,12 @@ namespace MazeRunnerSensorCalibration
                 }
             }
 
-            sensor1 += "}\r\n";
-            sensor2 += "}\r\n";
-            sensor3 += "}\r\n";
-            sensor4 += "}\r\n";
-            sensor5 += "}\r\n";
-            sensor6 += "}\r\n";
+            sensor1 += "};\r\n";
+            sensor2 += "};\r\n";
+            sensor3 += "};\r\n";
+            sensor4 += "};\r\n";
+            sensor5 += "};\r\n";
+            sensor6 += "};\r\n";
 
             string output = "// Start: " + nudStart.Value + " \r\n";
             output += "// End: " + nudEnd.Value + " \r\n";
