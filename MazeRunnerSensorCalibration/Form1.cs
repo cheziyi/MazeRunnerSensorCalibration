@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MazeRunnerSensorCalibration
@@ -34,23 +30,30 @@ namespace MazeRunnerSensorCalibration
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                if (Convert.ToInt32(row["Distance"]) == Convert.ToInt32(nudDistance.Value))
+                foreach (DataRow row in dt.Rows)
                 {
-                    if (checkBox1.Checked)
-                        row["Sensor 1"] = Convert.ToInt32(nud1.Value);
-                    if (checkBox2.Checked)
-                        row["Sensor 2"] = Convert.ToInt32(nud2.Value);
-                    if (checkBox3.Checked)
-                        row["Sensor 3"] = Convert.ToInt32(nud3.Value);
-                    if (checkBox4.Checked)
-                        row["Sensor 4"] = Convert.ToInt32(nud4.Value);
-                    if (checkBox5.Checked)
-                        row["Sensor 5"] = Convert.ToInt32(nud5.Value);
-                    if (checkBox6.Checked)
-                        row["Sensor 6"] = Convert.ToInt32(nud6.Value);
+                    if (Convert.ToInt32(row["Distance"]) == Convert.ToInt32(nudDistance.Value))
+                    {
+                        if (checkBox1.Checked)
+                            row["Sensor 1"] = Convert.ToInt32(nud1.Value);
+                        if (checkBox2.Checked)
+                            row["Sensor 2"] = Convert.ToInt32(nud2.Value);
+                        if (checkBox3.Checked)
+                            row["Sensor 3"] = Convert.ToInt32(nud3.Value);
+                        if (checkBox4.Checked)
+                            row["Sensor 4"] = Convert.ToInt32(nud4.Value);
+                        if (checkBox5.Checked)
+                            row["Sensor 5"] = Convert.ToInt32(nud5.Value);
+                        if (checkBox6.Checked)
+                            row["Sensor 6"] = Convert.ToInt32(nud6.Value);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please initialize table first.");
             }
         }
 
@@ -110,12 +113,12 @@ namespace MazeRunnerSensorCalibration
         {
             var data = e.UserState as String;
             var datas = data.Split(' ');
-            nud1.Value = Convert.ToInt32(data[0]);
-            nud2.Value = Convert.ToInt32(data[1]);
-            nud3.Value = Convert.ToInt32(data[2]);
-            nud4.Value = Convert.ToInt32(data[3]);
-            nud5.Value = Convert.ToInt32(data[4]);
-            nud6.Value = Convert.ToInt32(data[5]);
+            nud1.Value = Convert.ToInt32(datas[0]);
+            nud2.Value = Convert.ToInt32(datas[1]);
+            nud3.Value = Convert.ToInt32(datas[2]);
+            nud4.Value = Convert.ToInt32(datas[3]);
+            nud5.Value = Convert.ToInt32(datas[4]);
+            nud6.Value = Convert.ToInt32(datas[5]);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -132,10 +135,6 @@ namespace MazeRunnerSensorCalibration
             {
                 client = new TcpClient(txtServer.Text, Convert.ToInt32(txtPort.Text));
 
-                Byte[] data = Encoding.ASCII.GetBytes("D\n");
-                NetworkStream stream = client.GetStream();
-                stream.Write(data, 0, data.Length);
-
                 backgroundWorker1.RunWorkerAsync();
 
                 MessageBox.Show("Connection successful.");
@@ -151,9 +150,7 @@ namespace MazeRunnerSensorCalibration
         private void btnGetReadings_Click(object sender, EventArgs e)
         {
             Byte[] data = Encoding.ASCII.GetBytes("N\n");
-
             NetworkStream stream = client.GetStream();
-
             stream.Write(data, 0, data.Length);
 
             Console.WriteLine("Sent");
@@ -161,69 +158,83 @@ namespace MazeRunnerSensorCalibration
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            string sensor1 = "[" + dt.Rows.Count + "]PROGMEM = {";
-            string sensor2 = "[" + dt.Rows.Count + "]PROGMEM = {";
-            string sensor3 = "[" + dt.Rows.Count + "]PROGMEM = {";
-            string sensor4 = "[" + dt.Rows.Count + "]PROGMEM = {";
-            string sensor5 = "[" + dt.Rows.Count + "]PROGMEM = {";
-            string sensor6 = "[" + dt.Rows.Count + "]PROGMEM = {";
-
-            for (int i = 0; i < dt.Rows.Count; i++)
+            try
             {
-                if (checkBox1.Checked)
+                string sensor1 = "[" + dt.Rows.Count + "]PROGMEM = {";
+                string sensor2 = "[" + dt.Rows.Count + "]PROGMEM = {";
+                string sensor3 = "[" + dt.Rows.Count + "]PROGMEM = {";
+                string sensor4 = "[" + dt.Rows.Count + "]PROGMEM = {";
+                string sensor5 = "[" + dt.Rows.Count + "]PROGMEM = {";
+                string sensor6 = "[" + dt.Rows.Count + "]PROGMEM = {";
+
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    sensor1 += Convert.ToInt32(dt.Rows[i]["Sensor 1"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor1 += ",";
+                    if (checkBox1.Checked)
+                    {
+                        sensor1 += Convert.ToInt32(dt.Rows[i]["Sensor 1"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor1 += ",";
+                    }
+                    if (checkBox2.Checked)
+                    {
+                        sensor2 += Convert.ToInt32(dt.Rows[i]["Sensor 2"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor2 += ",";
+                    }
+                    if (checkBox3.Checked)
+                    {
+                        sensor3 += Convert.ToInt32(dt.Rows[i]["Sensor 3"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor3 += ",";
+                    }
+                    if (checkBox4.Checked)
+                    {
+                        sensor4 += Convert.ToInt32(dt.Rows[i]["Sensor 4"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor4 += ",";
+                    }
+                    if (checkBox5.Checked)
+                    {
+                        sensor5 += Convert.ToInt32(dt.Rows[i]["Sensor 5"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor5 += ",";
+                    }
+                    if (checkBox6.Checked)
+                    {
+                        sensor6 += Convert.ToInt32(dt.Rows[i]["Sensor 6"]);
+                        if (i != dt.Rows.Count - 1)
+                            sensor6 += ",";
+                    }
                 }
-                if (checkBox2.Checked)
-                {
-                    sensor2 += Convert.ToInt32(dt.Rows[i]["Sensor 2"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor2 += ",";
-                }
-                if (checkBox3.Checked)
-                {
-                    sensor3 += Convert.ToInt32(dt.Rows[i]["Sensor 3"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor3 += ",";
-                }
-                if (checkBox4.Checked)
-                {
-                    sensor4 += Convert.ToInt32(dt.Rows[i]["Sensor 4"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor4 += ",";
-                }
-                if (checkBox5.Checked)
-                {
-                    sensor5 += Convert.ToInt32(dt.Rows[i]["Sensor 5"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor5 += ",";
-                }
-                if (checkBox6.Checked)
-                {
-                    sensor6 += Convert.ToInt32(dt.Rows[i]["Sensor 6"]);
-                    if (i != dt.Rows.Count - 1)
-                        sensor6 += ",";
-                }
+
+                sensor1 += "};\r\n";
+                sensor2 += "};\r\n";
+                sensor3 += "};\r\n";
+                sensor4 += "};\r\n";
+                sensor5 += "};\r\n";
+                sensor6 += "};\r\n";
+
+                string output = "// Start: " + nudStart.Value + " \r\n";
+                output += "// End: " + nudEnd.Value + " \r\n";
+                output += "// Interval: " + nudInterval.Value + " \r\n";
+
+                output += "1: " + sensor1 + "2: " + sensor2 + "3: " + sensor3 + "4: " + sensor4 + "5: " + sensor5 + "6: " + sensor6;
+
+                File.WriteAllText(DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", output);
+
+                MessageBox.Show("Code exported.");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please initialize table first.");
+            }
+        }
 
-            sensor1 += "};\r\n";
-            sensor2 += "};\r\n";
-            sensor3 += "};\r\n";
-            sensor4 += "};\r\n";
-            sensor5 += "};\r\n";
-            sensor6 += "};\r\n";
-
-            string output = "// Start: " + nudStart.Value + " \r\n";
-            output += "// End: " + nudEnd.Value + " \r\n";
-            output += "// Interval: " + nudInterval.Value + " \r\n";
-
-            output += "1: " + sensor1 + "2: " + sensor2 + "3: " + sensor3 + "4: " + sensor4 + "5: " + sensor5 + "6: " + sensor6;
-
-            File.WriteAllText(DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", output);
-
-            MessageBox.Show("Code exported.");
+        private void btnDebug_Click(object sender, EventArgs e)
+        {
+            Byte[] data = Encoding.ASCII.GetBytes("D\n");
+            NetworkStream stream = client.GetStream();
+            stream.Write(data, 0, data.Length);
         }
     }
 }

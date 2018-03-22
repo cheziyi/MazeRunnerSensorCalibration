@@ -60,6 +60,7 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnGetReadings = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
+            this.btnDebug = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEnd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
@@ -412,7 +413,7 @@
             // 
             this.btnConnect.Location = new System.Drawing.Point(26, 61);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(252, 23);
+            this.btnConnect.Size = new System.Drawing.Size(145, 23);
             this.btnConnect.TabIndex = 34;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -438,11 +439,22 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
+            // btnDebug
+            // 
+            this.btnDebug.Location = new System.Drawing.Point(177, 61);
+            this.btnDebug.Name = "btnDebug";
+            this.btnDebug.Size = new System.Drawing.Size(101, 23);
+            this.btnDebug.TabIndex = 37;
+            this.btnDebug.Text = "Toggle Debug";
+            this.btnDebug.UseVisualStyleBackColor = true;
+            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 455);
+            this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnGetReadings);
             this.Controls.Add(this.btnConnect);
@@ -526,6 +538,7 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnGetReadings;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnDebug;
     }
 }
 
